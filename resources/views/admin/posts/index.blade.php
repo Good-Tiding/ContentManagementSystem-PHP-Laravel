@@ -26,9 +26,11 @@
                     <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Owner</th>
-                            <th>Title</th>
                             <th>Image</th>
+                            <th>Owner</th>
+                            <th>Categeory</th>
+                            <th>Title</th>
+                            
                             <th>Created At</th>
                             <th>Updated At</th>
                             <th>Delete</th>
@@ -39,9 +41,11 @@
                     <tfoot>
                         <tr>
                             <th>Id</th>
-                            <th>Owner</th>
-                            <th>Title</th>
                             <th>Image</th>
+                            <th>Owner</th>
+                            <th>Categeory</th>
+                            <th>Title</th>
+                           
                             <th>Created At</th>
                             <th>Updated At</th>
                             <th>Delete</th>
@@ -56,6 +60,7 @@
                             <td>{{$post->id}}</td>
                             <td> <img height="60px" src="{{$post->post_image }}"> </td>
                             <td>{{$post->user->name}}</td>
+                            <td>{{$post->category ? $post->category->name :'UnCategorized'}}</td>
                             <td ><a href="{{route('post.edit',$post->id)}}">{{$post->title}}</a></td>
                             <td>{{$post->created_at->diffForHumans()}}</td>
                             <td>{{$post->updated_at->diffForHumans()}}</td>
@@ -94,8 +99,8 @@
         <script src="{{asset('vendor/datatables/jquery.dataTables.min.js')}}"></script>
         <script src="{{asset('vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
 
-        <!-- Page level custom scripts -->
-        {{-- <script src="{{asset('js/demo/datatables-demo.js')}}"></script> --}}
+        {{-- <!-- Page level custom scripts -->
+        <script src="{{asset('js/demo/datatables-demo.js')}}"></script>  --}}
 
     @endsection
 

@@ -57,11 +57,7 @@
 
       <!-- Nav Item - Pages Collapse Menu -->
       
-      <x-admin.sidebar.admin-sidebar-posts-links>
-
-
-      </x-admin.sidebar.admin-sidebar-posts-links>
-
+      
 
       
 
@@ -79,6 +75,13 @@
        </x-admin.sidebar.authorization-links>
 
        @endif
+
+
+       <x-admin.sidebar.admin-sidebar-posts-links>
+
+
+       </x-admin.sidebar.admin-sidebar-posts-links>
+ 
       
       <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">

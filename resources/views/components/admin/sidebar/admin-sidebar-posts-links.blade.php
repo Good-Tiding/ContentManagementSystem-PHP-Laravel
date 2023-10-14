@@ -10,7 +10,7 @@
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">posts</h6>
         <a class="collapse-item" href="{{route('post.create')}}">creating post</a>
-        <a class="collapse-item" href="{{route('post.index')}}">showing posts</a>
+        <a class="collapse-item" href="{{route('post.index')}}">show All posts</a>
       </div>
     </div>
   </li>

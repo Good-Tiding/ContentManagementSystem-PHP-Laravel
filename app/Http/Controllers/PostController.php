@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -16,8 +17,9 @@ class PostController extends Controller
 
     public function create()
     {
+        $categories=Category::pluck('name','id')->all();
         
-        return view('admin.posts.create');
+        return view('admin.posts.create',compact('categories'));
     }
 
     public function store(Post $post)
@@ -30,6 +32,7 @@ class PostController extends Controller
       $inputs=request()->validate
       ([
       'title'=>'required|min:2|max:255',
+      //'category_id'=>'required',
       'post_image' =>'file',
       'body'=>'required'
       ]);
@@ -51,7 +54,7 @@ class PostController extends Controller
     {//show posts for all users
         //$show_posts=Post::all();
     //show posts for the logged user only
-        $show_posts=auth()->user()->posts()->cursorPaginate(2)->withQueryString();
+        $show_posts=auth()->user()->posts()->cursorPaginate(5)->withQueryString();
         //dd($show_posts);
         return view('admin.posts.index',compact('show_posts'));
     }
