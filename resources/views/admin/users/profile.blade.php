@@ -35,6 +35,7 @@
 
 
           <div class='mb-4'> 
+            
                 <img width= '150' height='150' class="img-profile rounded-circle" src="{{$user->photo ? $user->photo->file  : 'http://placehold.it/400*400' }}">
             <div class="form-group">
                 {!! Form::label ('photo_id','new_photo_model: ')!!}

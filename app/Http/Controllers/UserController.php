@@ -74,7 +74,7 @@ class UserController extends Controller
           $file->move('images_model',$name);
 
           $photo=Photo::create(['file'=>$name]);
-
+         // echo '$photo->file'; 
           $inputs['photo_id']=$photo->id;
 
           $user->photo_id = $inputs['photo_id'];

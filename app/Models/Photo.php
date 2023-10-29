@@ -13,6 +13,8 @@ class Photo extends Model
 
     protected $uploaded = '/images_model/';
 
+   // protected $uploadeddropzone = '/dropzone_media/';
+
 
     public function getFileAttribute($photo)
 
@@ -20,5 +22,9 @@ class Photo extends Model
 
         return $this->uploaded. $photo;
     }
+
+
+   
+  
 
 }

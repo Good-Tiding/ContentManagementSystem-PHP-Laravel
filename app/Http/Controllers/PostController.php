@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -61,9 +63,13 @@ class PostController extends Controller
 
     public function delete(Post $post)
     {
+        
+      $path = parse_url($post->post_image);
+    // File::delete(public_path($path['path']));
+       unlink(public_path($path['path']));
         $this->authorize('delete',$post);
-       //auth()->user()->posts()->delete($post);
-       $post->delete();
+       auth()->user()->posts()->delete($post);
+      // $post->delete();
        Session::flash('deleting_message','Post '.$post->id.' had deleted');
        return back();
         
@@ -75,7 +81,14 @@ class PostController extends Controller
         
         $this->authorize('view',$post);
         //dd($post) ;  
-        return view('admin.posts.edit',['post'=>$post]);
+
+        $categories=Category::pluck('name','id')->all();
+        
+      
+
+        return view('admin.posts.edit',['post'=>$post,
+                                        'categories'=>$categories 
+                    ]);
         
         
     }
@@ -83,11 +96,13 @@ class PostController extends Controller
     public function update(Post $post)
     {
         //dd($post) ;  
-        $inputs=request()->validate
+      $inputs=request()->validate
         ([
         'title'=>'required|min:2|max:255',
         'post_image' =>'file',
-        'body'=>'required'
+        'body'=>'required',
+        'category_id'=>'required'
+        
         ]);
 
         if(request('post_image'))
@@ -98,12 +113,18 @@ class PostController extends Controller
       // $post->title متل بعد ما تملي الليبل رح اخده
       $post->title = $inputs['title'];
       $post->body = $inputs['body'];
+    //  $post->category_id = $inputs['category_id'];
+      $post->category_id=$inputs['category_id'];
      //auth()->user()->posts()->save($post);
       $this->authorize('update',$post);
+
+     // $post->update($inputs);
+     
       $post->save();
+      
      Session::flash('updating_message','Post '.$post->id.' has updated');
      return redirect()->route('post.index');
-       
+     
         
     }
   

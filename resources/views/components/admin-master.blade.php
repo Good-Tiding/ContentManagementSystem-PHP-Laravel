@@ -19,6 +19,8 @@
   <!-- Custom styles for this template-->
   <link href="{{asset('css/sb-admin-2.css')}}" rel="stylesheet">
 
+@yield('styles')
+
 </head>
 
 <body id="page-top">
@@ -68,11 +70,22 @@
 
         </x-admin.sidebar.admin-sidebar-users-links>
 
-     
+        
+        <x-admin.sidebar.admin-sidebar-categories-links>
+
+        </x-admin.sidebar.admin-sidebar-categories-links>
+
+        <x-admin.sidebar.admin-sidebar-mediaphoto-links>
+
+        </x-admin.sidebar.admin-sidebar-mediaphoto-links>
+
 
        <x-admin.sidebar.authorization-links>
 
        </x-admin.sidebar.authorization-links>
+
+       
+
 
        @endif
 
@@ -366,6 +379,7 @@
   <script src="{{asset('js/sb-admin-2.min.js')}}"></script>
 
   @yield('table scripts')
+  @yield('dropzone script')
 
 </body>
 

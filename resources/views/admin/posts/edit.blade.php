@@ -14,7 +14,13 @@
         
         </div>
        
-    
+        <div class="form-group">
+        
+          {!! Form::label ('category_id','Choose a Category')!!}
+          {!! Form::select ('category_id',$categories,"$post->category_id",['class'=>'form-control'])!!}
+      
+         
+          </div>
     
         {!! Form::label ('post_image','File')!!}
         <div  class="form-group"><img height='200px'src="{{$post->post_image}}"></div>

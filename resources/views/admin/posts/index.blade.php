@@ -30,7 +30,7 @@
                             <th>Owner</th>
                             <th>Categeory</th>
                             <th>Title</th>
-                            
+                            <th>Description</th>
                             <th>Created At</th>
                             <th>Updated At</th>
                             <th>Delete</th>
@@ -45,7 +45,7 @@
                             <th>Owner</th>
                             <th>Categeory</th>
                             <th>Title</th>
-                           
+                            <th>Description</th>
                             <th>Created At</th>
                             <th>Updated At</th>
                             <th>Delete</th>
@@ -62,6 +62,7 @@
                             <td>{{$post->user->name}}</td>
                             <td>{{$post->category ? $post->category->name :'UnCategorized'}}</td>
                             <td ><a href="{{route('post.edit',$post->id)}}">{{$post->title}}</a></td>
+                            <td>{{Str::limit($post->body,10)}}</td>
                             <td>{{$post->created_at->diffForHumans()}}</td>
                             <td>{{$post->updated_at->diffForHumans()}}</td>
                             <td>
