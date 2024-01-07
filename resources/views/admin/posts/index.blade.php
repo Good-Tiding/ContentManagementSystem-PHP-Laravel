@@ -31,6 +31,7 @@
                             <th>Categeory</th>
                             <th>Title</th>
                             <th>Description</th>
+                            <th>Comments</th>
                             <th>Created At</th>
                             <th>Updated At</th>
                             <th>Delete</th>
@@ -46,6 +47,7 @@
                             <th>Categeory</th>
                             <th>Title</th>
                             <th>Description</th>
+                            <th>Comments</th>
                             <th>Created At</th>
                             <th>Updated At</th>
                             <th>Delete</th>
@@ -61,8 +63,9 @@
                             <td> <img height="60px" src="{{$post->post_image }}"> </td>
                             <td>{{$post->user->name}}</td>
                             <td>{{$post->category ? $post->category->name :'UnCategorized'}}</td>
-                            <td ><a href="{{route('post.edit',$post->id)}}">{{$post->title}}</a></td>
-                            <td>{{Str::limit($post->body,10)}}</td>
+                            <td ><a href="{{route('post.edit',$post->slug)}}">{{$post->title}}</a></td>
+                            <td><a href="{{route('blog.post',$post->slug)}}">View Post</a></td>
+                            <td><a href="{{route('comments.show',$post->id)}}">View Comments</a></td>
                             <td>{{$post->created_at->diffForHumans()}}</td>
                             <td>{{$post->updated_at->diffForHumans()}}</td>
                             <td>
@@ -91,6 +94,13 @@
                     {{$show_posts->links()}}
                 </div>
             </div>
+
+          {{-- نقس تبع اللينكس
+              <div class="row">
+                <div class="col-sm-6 col-sm-offset-5">
+                    {{$show_posts->render()}}
+                </div>
+            </div> --}}
 
     @endsection
    

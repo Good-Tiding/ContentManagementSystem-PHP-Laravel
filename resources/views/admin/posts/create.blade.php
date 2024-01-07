@@ -1,7 +1,7 @@
 <x-admin-master>
 @section('content')
 
-
+{{-- @include('tinyeditor') --}}
 
 
 <h1>Creating Posts</h1>

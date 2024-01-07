@@ -6,6 +6,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\View;
 
 class CategoriesController extends Controller
 {
@@ -16,11 +17,18 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        return view('admin.categories.index',[
-            'categories'=>Category::all()
+      /// $categories=Category::all();
+       // return view(['components.home-master','admin.categories.index'], compact('categories'));
+       // return view('components.home-master', [$categories]);
+          return view('admin.categories.index',[
+            'categories'=>Category::all() 
           
-         ]);
-    }
+         ]); 
+  /*        $categories=Category::all();
+        return  View::share('admin.categories.index', compact('categories')  ); */
+
+       //  View::share('categories', Category::OrderBy('sortOrder', 'asc')->get());
+        }
 
     /**
      * Show the form for creating a new resource.

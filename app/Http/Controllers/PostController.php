@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Facades\File;
@@ -12,9 +13,14 @@ use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
-    public function show(Post $post)
+    public function show(Post $post,Comment $comment)
     {
-        return view('blog-post',['post'=>$post]);
+        $comments=$post->comments()->whereIsActive(1)->get();
+       // $replies=$comment->replies()->whereIsActive(1)->get();
+        return view('blog-post',['post'=>$post,
+                                 'comments'=> $comments,
+                                // 'replies' => $replies,
+    ]);
     }
 
     public function create()
@@ -56,7 +62,7 @@ class PostController extends Controller
     {//show posts for all users
         //$show_posts=Post::all();
     //show posts for the logged user only
-        $show_posts=auth()->user()->posts()->cursorPaginate(5)->withQueryString();
+        $show_posts=auth()->user()->posts()->cursorPaginate(4)->withQueryString();
         //dd($show_posts);
         return view('admin.posts.index',compact('show_posts'));
     }
@@ -68,7 +74,7 @@ class PostController extends Controller
     // File::delete(public_path($path['path']));
        unlink(public_path($path['path']));
         $this->authorize('delete',$post);
-       auth()->user()->posts()->delete($post);
+      auth()->user()->posts()->delete($post); 
       // $post->delete();
        Session::flash('deleting_message','Post '.$post->id.' had deleted');
        return back();

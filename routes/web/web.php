@@ -1,9 +1,18 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CategoriesController;
+
+use App\Http\Controllers\CommentsRepliesController;
+use App\Http\Controllers\PostCommentsController;
+use Illuminate\Support\Facades\Auth;
+
+use App\Http\Controllers\HomeController;
 use App\Models\Permission;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers;
+
+
 
 Route::get('/attach role to user', function(){
     $user=User::find(18);
@@ -28,21 +37,28 @@ Route::get('/attach permission to user', function(){
 Auth::routes();
 
 //هاد بيتساوى لما ساوي خطوات اللوغن 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
 Route::middleware('auth')->group(function(){
     //we put the /admin in auth middleware because we cannot enter the admin page without login
     // and the same as /admin/post/create and admin/posts/store because the post creation in admin page
-    Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.index');
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+   
+    Route::resource('auth/comments/replies',CommentsRepliesController::class);
+  
 });
 
+
+
 Route::middleware('auth','role:Admin')->group(function(){
-Route::resource('admin/categories', App\Http\Controllers\CategoriesController::class);
+    Route::resource('admin/categories', CategoriesController::class);
+    Route::resource('auth/comments', PostCommentsController::class);
 
 //ما في داعي نساويها ريسورس لاني بس بحاجة الاندكس والديليت
 
 });
+
 
 
 

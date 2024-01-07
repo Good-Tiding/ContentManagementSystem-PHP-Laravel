@@ -1,6 +1,7 @@
 <x-admin-master>
   @section('content')
-    
+   {{-- @include('tinyeditor') --}}
+
     <h1>Editing Posts</h1>
     {!! Form::open(array('method' => 'put','files'=>'true', 'route' => array('post.update',$post->id)))!!}   
     
@@ -23,7 +24,7 @@
           </div>
     
         {!! Form::label ('post_image','File')!!}
-        <div  class="form-group"><img height='200px'src="{{$post->post_image}}"></div>
+        <div  class="form-group"><img height='200px' src="{{$post->post_image }}"></div>
 
        
         {!! Form::file ('post_image',['class'=>'form-control-file'])!!}

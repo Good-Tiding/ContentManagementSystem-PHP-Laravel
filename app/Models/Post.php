@@ -2,12 +2,39 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+
+
+use Cviebrock\EloquentSluggable\Sluggable;
+
+
+
+class Post extends Model 
+
 {
     use HasFactory;
+    use Sluggable;
+
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source'      => 'title',
+                'onUpdate'    => true,
+            ],
+           
+        ];
+    }
+
+
 
    /*  protected $fillable = [
         'title',
@@ -31,6 +58,12 @@ class Post extends Model
 
     }
 
+
+    public function comments()
+    {
+     return $this->hasMany(Comment::class);
+
+    }
     /*   public function setPostImageAttribute($value)
     {
 
@@ -54,6 +87,17 @@ class Post extends Model
         return asset('/storage/'.$this->attributes['post_image']);
     
     } 
+    public function getRouteKeyName ()
+    {
+        return 'slug';
+    }
 
+ /*    public function photo()
+    {
+     return $this->belongsTo(Photo::class);
+
+    } */
+
+    
   
 }
