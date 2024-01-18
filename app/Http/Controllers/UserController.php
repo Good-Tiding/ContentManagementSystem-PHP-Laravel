@@ -85,12 +85,12 @@ class UserController extends Controller
         //المهم فينا نقول
         //User::create($inputs);
      
-        if(request('avatar'))
+     /*    if(request('avatar'))
       {
         //dd(request('avatar'));
            $inputs['avatar']=request('avatar')->store('images');
           $user->avatar = $inputs['avatar'];
-      }
+      } */
       
       
       $user->username = $inputs['username'];
@@ -114,7 +114,10 @@ class UserController extends Controller
 
     public function delete(User $user)
     {
-      unlink(public_path().$user->photo->file);
+      $path = parse_url($user->photo->file);
+      
+         unlink(public_path($path['path']));
+      //unlink(public_path().$user->photo->file);
 
 
       // ما زبطu nlink(public_path().$user->avatar);

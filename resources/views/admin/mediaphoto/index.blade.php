@@ -11,6 +11,9 @@
 
 @elseif(Session::has('Cannot_delete_message'))
 <div class='alert alert-danger' >{{Session::get('Cannot_delete_message')}}</div>
+
+@elseif(Session:: has('deleting_checked_message'))
+<div class='alert alert-danger' >{{Session::get('deleting_checked_message')}}</div>
 @endif
 
     <div class="card shadow mb-4">
@@ -20,11 +23,22 @@
         <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-    
+                @foreach ($photos as $photo)     
+                   {!! Form::open(array('method' => 'delete', 'route' =>array( 'mediaphoto.deletechecked',$photo->id)))!!}
+                @endforeach
+              
                
+                <div class="delete-all-button">
+                   {!! Form::submit ('Delete all',['class'=>'btn btn-info '])!!}
+                </div>
+                   {!! Form::close() !!}
+              
+            
+              
                 
             <thead>
                 <tr>
+                    <th><input type="checkbox"></th>
                     <th>MEDIA_ID</th>
                     <th>Name</th>
                     <th>Photo</th>
@@ -39,6 +53,7 @@
     
             <tfoot>
                 <tr>
+                    <th></th>
                     <th>MEDIA_ID</th>
                     <th>Name</th>
                     <th>Photo</th>
@@ -54,7 +69,7 @@
                   @foreach ($users as $user)
                     <tr>
                        
-                           
+                        <td> <input type="checkbox" value="{{$photo->id}}"> </td>
                             <td>{{$photo->id}}</td>
                            <td>{{$user->name}}</td>
                             <td>

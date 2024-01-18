@@ -6,7 +6,14 @@
         @endif
     
     </span>
-      <img class="img-profile rounded-circle" src="{{auth()->user()->avatar}}">
+
+
+
+    
+    {{-- ما زبطت ما عم تطلع البليس هولدر لما ما يكون في صورة --}}
+
+    <img width= '150' height='150' class="img-profile rounded-circle" src="{{auth()->user() ? auth()->user()->photo  : 'https://placehold.co/600x400' }}">
+      {{-- <img class="img-profile rounded-circle" src="{{auth()->user()->photo}}"> --}}
     </a>
     <!-- Dropdown - User Information -->
     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

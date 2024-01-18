@@ -77,7 +77,7 @@ class PostController extends Controller
       auth()->user()->posts()->delete($post); 
       // $post->delete();
        Session::flash('deleting_message','Post '.$post->id.' had deleted');
-       return back();
+       return redirect()->route('post.index');
         
     }
 
@@ -107,7 +107,7 @@ class PostController extends Controller
         'title'=>'required|min:2|max:255',
         'post_image' =>'file',
         'body'=>'required',
-        'category_id'=>'required'
+        //'category_id'=>'required'
         
         ]);
 
@@ -120,7 +120,7 @@ class PostController extends Controller
       $post->title = $inputs['title'];
       $post->body = $inputs['body'];
     //  $post->category_id = $inputs['category_id'];
-      $post->category_id=$inputs['category_id'];
+      //$post->category_id=$inputs['category_id'];
      //auth()->user()->posts()->save($post);
       $this->authorize('update',$post);
 

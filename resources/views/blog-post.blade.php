@@ -26,7 +26,7 @@
       <hr>
   
       <!-- Post Content -->
-         <p>{!! $post->body !!} </p>
+         <p>{{ $post->body }} </p>
       
       
       <hr>
@@ -44,7 +44,7 @@
       
       <div class='comment'>
       {{-- <div class="card my-2"> --}}
-        <h5 class="card-header">Leave a Comment</h5>
+        <h3 class="card-header">Leave a Comment</h3>
        
   
         {!! Form::open(array('method' => 'post', 'route' => 'comments.store'))!!}
@@ -57,10 +57,11 @@
                   {{-- {!! Form::label ('body','Comment')!!} --}}
                   {!! Form::textarea ('body',null,['class'=>'form-control','rows'=>3])!!}
               </div>
-            <br>                
+                            
   
                 <div class="form-group">
-                 {!! Form::submit ('Publish',['class'=>'btn btn-info'])!!}
+                  {{-- btn btn-info لون أفتح --}}
+                 {!! Form::submit ('Publish',['class'=>'btn btn-primary'])!!}
                 </div>  
             <br>
           {!! Form::close() !!}
@@ -76,13 +77,16 @@
   @if(count($comments) >0) 
     @foreach ($comments as $comment )
   
-  
+   
       <div class="media">
             <a class="pull-left" href="#">
-              <img height="64" class="media-object" src="{{$comment->photo_id}}" alt="">
+
+              {{-- class="media-object" --}}
+              {{-- alt="https://placehold.co/600x400 "  --}}
+              <img  height="64" class="media-object  d-flex mr-3 rounded-circle" src="{{$comment->photo ? $comment->photo->file: "https://placehold.co/600x400"}}">
             </a>
        <div class="media-body">
-              <h6 class="mt-0">{{$comment->author}}
+              <h6 class="media-heading">{{$comment->author}}
                 <small>{{$comment->created_at->diffForHumans()}}</small>
               </h6>
               <p>{{$comment->body}}</p>
@@ -94,7 +98,7 @@
                     <button class= "toggle-reply btn btn-primary float-end">Reply</button>
 
 
-                  <div class="comment-reply ">
+                  <div class="comment-reply">
                     {!! Form::open(array('method' => 'post', 'route' => 'replies.store'))!!}
 
                         <input type='hidden' name='comment_id'  value={{$comment->id}}> 
@@ -107,7 +111,7 @@
                   
                       </div>
 
-                        <br>     
+                         
                       <div class="form-group">
               
                         {!! Form::submit ('post your reply ',['class'=>'btn btn-primary'])!!}

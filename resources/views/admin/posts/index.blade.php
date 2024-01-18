@@ -70,7 +70,7 @@
                             <td>{{$post->updated_at->diffForHumans()}}</td>
                             <td>
                                 @can('view',$post)
-                                {!! Form::open(array('method' => 'delete', 'route' =>array('post.delete', $post->id )))!!}
+                                {!! Form::open(array('method' => 'delete', 'route' =>array('post.delete', $post->slug )))!!}
                               
                                 {!! Form::submit ('Delete',['class'=>'btn btn-danger'])!!}
                             

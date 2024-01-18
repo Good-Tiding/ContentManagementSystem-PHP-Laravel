@@ -52,5 +52,17 @@ public function destroy(Photo $photo)
 //echo ('no photo to delete');
 
 }
+
+public function destroychecked (Photo $photo)
+{
+   unlink(public_path().$photo->file);
+  $photo->delete();
+
+  Session::flash('deleting_checked_message','Photo '.count($photo->id). 'had deleted');
+    return back();
+
+    //return 'working';
+
+}
     
 }

@@ -62,7 +62,7 @@
       
 
       
-
+     
         @if (auth()->user()->UserHasRole('Admin'))
     
 
@@ -97,7 +97,8 @@
  
       
       <!-- Nav Item - Utilities Collapse Menu -->
-      <li class="nav-item">
+      
+      {{-- <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
           <i class="fas fa-fw fa-wrench"></i>
           <span>Utilities</span>
@@ -111,10 +112,10 @@
             <a class="collapse-item" href="utilities-other.html">Other</a>
           </div>
         </div>
-      </li>
+      </li> --}}
 
       <!-- Divider -->
-      <hr class="sidebar-divider">
+     {{--  <hr class="sidebar-divider">
 
       <!-- Heading -->
       <div class="sidebar-heading">
@@ -153,15 +154,15 @@
         <a class="nav-link" href="tables.html">
           <i class="fas fa-fw fa-table"></i>
           <span>Tables</span></a>
-      </li>
+      </li> --}}
 
       <!-- Divider -->
-      <hr class="sidebar-divider d-none d-md-block">
+      {{-- <hr class="sidebar-divider d-none d-md-block">
 
       <!-- Sidebar Toggler (Sidebar) -->
       <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
-      </div>
+      </div> --}}
 
     </ul>
     <!-- End of Sidebar -->
@@ -361,6 +362,7 @@
 
   </div>
   <!-- End of Page Wrapper -->
+
 
   <!-- Scroll to Top Button-->
   <a class="scroll-to-top rounded" href="#page-top">

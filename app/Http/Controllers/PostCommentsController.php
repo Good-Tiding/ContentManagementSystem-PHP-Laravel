@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\Photo;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,12 +48,23 @@ class PostCommentsController extends Controller
             'post_id' => $request->post_id,
              'author' => $user->name,
             'email' => $user->email,
-            'photo_id'=> $user->photo->file,
+            'photo_id'=>$user->photo->file,
             'body' => $request->body, 
         ]; 
-        Comment::create($data);
+        
        // return $request->all();
 
+       /*  if($user->photo)
+        {
+            
+
+            $user->photo_id = $data['photo_id'];
+        
+        } 
+ */
+        Comment::create($data);
+
+       
        session()->flash('comment_message','Your comment has been submitted and it is waiting for moderation');
        return redirect()->back();
     }
@@ -102,6 +114,13 @@ class PostCommentsController extends Controller
      */
     public function destroy(Comment $comment)
     {
+        if($comment->photo)
+        {
+        $path = parse_url($comment->photo->file);
+      
+        unlink(public_path($path['path']));
+        }
+        
         $comment->delete();
         Session::flash('deleting_message','Comment '.$comment->id.' had deleted');
          

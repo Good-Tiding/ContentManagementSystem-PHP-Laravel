@@ -19,7 +19,7 @@
             
             {!! Form::open(array('method' => 'put','files'=>'true','route' => array('profile.update',$user->id)))!!}   
             
-            <div class='mb-4'> 
+         {{--    <div class='mb-4'> 
                 <img width= '150' height='150' class="img-profile rounded-circle" src="{{$user->avatar}}">
         
             
@@ -31,12 +31,12 @@
             {!! Form::file ('avatar',['class'=>'form-control-file'])!!}
           
         
-            </div>
+            </div> --}}
 
 
           <div class='mb-4'> 
-            
-                <img width= '150' height='150' class="img-profile rounded-circle" src="{{$user->photo ? $user->photo->file  : 'http://placehold.it/400*400' }}">
+            {{-- http://placehold.it/400*400 --}}
+                <img width= '150' height='150' class="img-profile rounded-circle" src="{{$user->photo ? $user->photo->file  : 'https://placehold.co/600x400' }}">
             <div class="form-group">
                 {!! Form::label ('photo_id','new_photo_model: ')!!}
                 {!! Form::file ('photo_id',['class'=>'form-control-file'])!!}
@@ -225,7 +225,7 @@
      
             </div>
             </div>
-        </div>
+        
     
      
 

@@ -1,9 +1,8 @@
 <x-admin-master>
   @section('content')
-   {{-- @include('tinyeditor') --}}
-
+    {{-- @include('tinyeditor') --}}
     <h1>Editing Posts</h1>
-    {!! Form::open(array('method' => 'put','files'=>'true', 'route' => array('post.update',$post->id)))!!}   
+    {!! Form::open(array('method' => 'put','files'=>'true', 'route' => array('post.update',$post->slug)))!!}   
     
         <div class="form-group">
     

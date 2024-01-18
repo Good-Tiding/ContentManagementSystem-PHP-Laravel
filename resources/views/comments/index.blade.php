@@ -59,7 +59,7 @@
                     <td> {{$comment->author}} </td>
                     <td>{{$comment->email}}</td>
                     <td>{{Str::limit($comment->body,10)}}</td>
-                    <td><a href="{{route('blog.post',$comment->post->id)}}">View Post</a></td>
+                    <td><a href="{{route('blog.post',$comment->post->slug)}}">View Post</a></td>
                     <td><a href="{{route('replies.show',$comment->id)}}">View Replies</a></td>
                  
 

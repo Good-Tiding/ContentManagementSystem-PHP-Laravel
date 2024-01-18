@@ -18,8 +18,8 @@
    
     <div class="card-body">
       <h2 class="card-title">{{$post->title}}</h2>
-      <p class="card-text">{{Str::limit($post->body,'20','....')}}</p>
-      <a href="{{ route('blog.post',$post->slug) }}" class="btn btn-primary">Read More &rarr;</a>
+      <p class="card-text">{{ Str::limit($post->body,'20','....')}}</p>
+      <a href="{{route('blog.post',$post->slug)}}" class="btn btn-primary">Read More &rarr;</a>
     </div>
     <div class="card-footer text-muted">
       Posted on {{$post->created_at->diffForHumans()}}
