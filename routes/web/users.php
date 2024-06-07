@@ -25,7 +25,8 @@ Route::middleware(['role:Admin','auth'])->group(function()
 
 Route::middleware(['can:view,user','auth'])->group(function()
 {
-//مرقت السلغ لاني بدي اعمل ابديت بنفس الصفحة وعم غير اسم اليوزر  مثلا بالبروفايل وممرقتله السلغ انها اسمه
+    //we pass the slug here because we want to make update in the same page and we are maybe updating the user name and we pass the user name in the route
+
     Route::get('user/{user:slug}/profile', [UserController::class, 'show_user_profile'])->name('profile.normaluser');
   
 });

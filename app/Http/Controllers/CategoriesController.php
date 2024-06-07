@@ -35,7 +35,7 @@ class CategoriesController extends Controller
       
   }
 
-    //Show Posts Related to a sepecific Category
+    
     public function show(Category $category)
     {
       //  $category = Category::find($id);

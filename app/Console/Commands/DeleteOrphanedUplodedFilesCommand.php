@@ -20,7 +20,7 @@ class DeleteOrphanedUplodedFilesCommand extends Command
 
      public function deleteOrphanedFiles($model,$folder)
     {
-        // Check if the  folder exists
+        
         if (!file_exists(public_path($folder))) 
         {
             // The folder does not exist, so delete all photo records

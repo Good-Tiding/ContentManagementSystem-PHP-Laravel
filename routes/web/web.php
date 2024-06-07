@@ -21,56 +21,36 @@ Route::get('/attach role to user', function(){
     $user->roles()->attach(1);
 });
 
-Route::get('/attach permission to role', function(){
-    $permi=Permission::find(1);
-    $permi->roles()->attach(1);
-    });
 
-/* Route::get('/attach permission to userbb', function(){
-    $user=User::find(8);
-    $user->permissions()->attach(1);
-    }); */
-//or
-Route::get('/attach permission to user', function(){
-    $permi=Permission::find(1);
-    $permi->users()->attach(18);
-    });
+//Auth::routes();
 
-Auth::routes();
 
-//هاد بيتساوى لما ساوي خطوات اللوغن 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-//Route::get('/search', [HomeController::class, 'search'])->name('search');
-//Route::get('/search', [PostController::class, 'search'])->name('search');
 
-Route::middleware('auth')->group(function(){
-    //we put the /admin in auth middleware because we cannot enter the admin page without login
-    // and the same as /admin/post/create and admin/posts/store because the post creation in admin page
+    Route::middleware('auth')->group(function()
+    {
+    
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
-   
-    Route::resource('auth/comments', PostCommentsController::class);
-    // Separate route for approving comments
-     Route::patch('comments/approveunapprove/{comment}', [PostCommentsController::class, 'ApproveUnApprove'])->name('comments.approve.unapprove');
-    ///Route::resource('auth/comments/{comment}/edit', PostCommentsController::class);
+
     Route::resource('auth/comments/replies',CommentsRepliesController::class);
-  //  auth/comments/replies/{reply}/edit
-});
+  
+    Route::resource('auth/comments', PostCommentsController::class);
+
+   });
+
+    Route::middleware(['role:Admin','auth'])->group(function()
+    {
+
+    Route::patch('comments/approveunapprove/{comment}', [PostCommentsController::class, 'ApproveUnApprove'])->name('comments.approve.unapprove');
+
+    }); 
+  
 
 
 
-/* Route::middleware('auth','role:Admin')->group(function(){
-    Route::resource('admin/categories', CategoriesController::class);
-   
-
-//ما في داعي نساويها ريسورس لاني بس بحاجة الاندكس والديليت
-
-}); */
 
 
-/* Route::middleware('auth')->group(function(){
-    Route::resource('home/categories', CategoriesController::class);
-}); */
 
 
 

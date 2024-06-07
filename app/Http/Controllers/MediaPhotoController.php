@@ -36,15 +36,15 @@ class MediaPhotoController extends Controller
     if ($file) 
     {
         $name= time() .".". $file->getClientOriginalName();
-        //$name = time() . "_" . 'mediaphoto.upload' . "_" . $file->getClientOriginalName();
+       
         $file->move('uploaded_pic',$name);
-      // Photo::create(['file'=>$name]);
+   
       
-    //  auth()->user()->uploadphotos()->create([ 'file' => $name]);
+   
     $uploadphoto = new UploadPhoto(['file' => $name]);
       auth()->user()->uploadphotos()->save($uploadphoto);
      
-     // $user->photo_id = $photo->id;
+  
   }
      // Store the fileCounter value in the session
      session()->put('fileCounter', $fileCounter);

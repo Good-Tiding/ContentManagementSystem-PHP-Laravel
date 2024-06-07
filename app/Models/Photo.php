@@ -17,12 +17,6 @@ class Photo extends Model
   
 
 
-   /*   public function getFileAttribute($photo)
-
-    {
-
-        return $this->profile. $photo;
-    }  */
 
  
   public function getFileAttribute($photo)
@@ -41,24 +35,6 @@ class Photo extends Model
   
 
 
-    
-
-/* public function getFileAttribute($photo)
-{
-    $profilePic = public_path($this->profile . $photo);
-
-    if (file_exists($profilePic)) {
-        return url($this->profile . $photo);
-    } else {
-        // Update the database to remove the photo
-        
-       // $this->update(['file' => null]);
-       //$this->update(['photo_id' => null]);
-      // $this->delete('file');
-      $this->update(['photo_id' => null]);
-        return url($this->placeholder);
-    }
-} */
 
 
     

@@ -28,7 +28,7 @@ class UserController extends Controller
     public function show_user_profile(User $user)
     {
     
-      //dd($user->roles);
+    
      return view('admin.users.normal_profile',compact('user'));
     }
 // Reusable method to update comments and replies
@@ -154,9 +154,7 @@ private function updateAuthorInfo($model, $userId, $newName, $newPhotoId)
   
     public function index()
     {
-    /*   $show_users = User::whereDoesntHave('roles', function ($query) {
-        $query->where('name', 'Admin');
-      })->paginate(2); */
+ 
       $show_users=User::paginate(2);
       return view('admin.users.index',compact('show_users'));
       
@@ -169,11 +167,11 @@ private function updateAuthorInfo($model, $userId, $newName, $newPhotoId)
 
       // Construct the file path using the file name
       $filePath = public_path('users_profile_pic/' . $fileName);
-       // Check if the user has an image and it is not a placeholder
+    
        if ($user->userphoto && $user->userphoto->file !== 'https://placehold.co/600x400')
          {
         // Delete the image file from the folder
-       // $filePath = public_path() . $user->userphoto->file;
+   
        Log::info("Trying to unlink the file: " . $filePath);
        if (file_exists($filePath)) 
        {
@@ -197,7 +195,7 @@ private function updateAuthorInfo($model, $userId, $newName, $newPhotoId)
       }
 
 
-      // ما زبطu nlink(public_path().$user->avatar);
+ 
       $user->delete();
       Session::flash('deleting_message','User '.$user->username.' had deleted');
       return back();
@@ -248,14 +246,13 @@ private function updateAuthorInfo($model, $userId, $newName, $newPhotoId)
                 $user->save();
                 Session::flash('deleting_user_image_message','User '.$user->username.' image had deleted');
     
-                //return response()->json(['success' => true, 'message' => 'Image deleted successfully']);
+               
             }
         } catch (Exception $e) {
             // Log the error
             Log::error('Failed to delete user image: ' . $e->getMessage());
     
-            // Return an error response
-           // return response()->json(['success' => false, 'message' => 'Failed to delete image'], 500);
+         
         }
     }
     

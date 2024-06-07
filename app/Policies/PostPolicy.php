@@ -32,12 +32,7 @@ class PostPolicy
 
     public function update(User $user, Post $post)
     {
-         //   فينا نحطا ازا بدنا كل ادمن يعدل على ادمن 
-        /*  if ($user->UserHasRole('Admin') )
-        {
-         return true;
-        }  */ 
-    
+       
         return $user->id == $post->user_id || $user->UserHasRole('Admin') ;
 
     } 
@@ -47,10 +42,7 @@ class PostPolicy
     
     public function delete(User $user, Post $post)
     {
-        /* if ($user->UserHasRole('Admin'))
-        {
-         return true;
-        } */
+       
         return $user->id == $post->user_id || $user->UserHasRole('Admin');
     }
 

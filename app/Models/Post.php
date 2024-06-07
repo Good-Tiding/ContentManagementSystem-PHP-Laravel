@@ -20,12 +20,6 @@ class Post extends Model
  
 
 
-
-    /**
-     * Return the sluggable configuration array for this model.
-     *
-     * @return array
-     */
     public function sluggable(): array
     {
         return [
@@ -39,11 +33,6 @@ class Post extends Model
 
 
 
-   /*  protected $fillable = [
-        'title',
-        'post_image',
-        'body',
-    ]; */
 
     protected $guarded=[];
 
@@ -67,22 +56,7 @@ class Post extends Model
      return $this->hasMany(Comment::class);
 
     }
-    /*   public function setPostImageAttribute($value)
-    {
-
-        $this->attributes['post_image'] = asset($value);
-    
-    } */
-
-    /* public function getPostImageAttribute()
-    { */
-     /*  if(substr($value,0,2) == 'ht')
-	            return $value;
-        else                       
-       return asset('/storage/'.$value); */ 
-        
-       //dd(asset($value));
-    
+   
 
        
        public function getPostImageAttribute($value)
@@ -113,11 +87,7 @@ class Post extends Model
         return 'slug';
     }
 
- /*    public function photo()
-    {
-     return $this->belongsTo(Photo::class);
-
-    } */
+ 
 
     
 

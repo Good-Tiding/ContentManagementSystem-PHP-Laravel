@@ -50,14 +50,6 @@ class AdminController extends Controller
                                       
         }
     }
-      //  
-       // $ReplyCount=CommentReply::count();
-
-         //$MediaCount=UploadPhoto::count();
-              // Fetch media count for each user
-      //  $MediaCount = User::withCount('uploadphotos')->get()->pluck('uploads_count', 'id');
-//dd( $MediaCount);
-
-//$MediaCount = User::with('uploadphotos')->sum('uploads_count');
+      
     }
 

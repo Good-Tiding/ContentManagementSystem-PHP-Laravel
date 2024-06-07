@@ -16,11 +16,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, Sluggable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    
    
 
     public function sluggable(): array
@@ -35,21 +31,13 @@ class User extends Authenticatable
     }
 
     protected $guarded =[];
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
+    
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
+    
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
@@ -61,17 +49,6 @@ class User extends Authenticatable
         }
     }
  
-    /* public function getAvatarAttribute()
-    {
-       
-    
-    if(substr($this->attributes['avatar'],0,4) == 'http')
-     return $this->attributes['avatar'];
-
-    else
-        return asset('/storage/'.$this->attributes['avatar']);
-    
-    }  */
     
     
 
@@ -112,21 +89,7 @@ class User extends Authenticatable
 
     }
 
-  /*   public function assignRoleToUser(User $user)
-{
-    if (User::count() === 1) {
-        $adminRole = Role::where('name', 'admin')->first();
-
-        if (!$adminRole) {
-            $adminRole = Role::create([
-                'name' => 'admin',
-            ]);
-        }
-
-        $user->assignRole($adminRole);
-    }
-} */
-
+ 
      public function assignRole($role)
 {
    // Log::info('Assigning role to user: ' . $this->id);

@@ -28,8 +28,6 @@ class DatabaseSeeder extends Seeder
         
         
 
-        // هي الطريقة استعملا بالفيديو بس مو زابطة لانو  غير تنسخة لارفل
-        //factory(User::class,2)->create();
 
     }
 }

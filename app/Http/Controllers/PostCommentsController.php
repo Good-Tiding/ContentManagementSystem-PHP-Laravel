@@ -11,14 +11,6 @@ use Illuminate\Support\Facades\Session;
 
 class PostCommentsController extends Controller
 {
-
-    
-    public function create()
-    {
-        //
-    }
-
-   
     public function store(Request $request)
     {
 
@@ -32,7 +24,7 @@ class PostCommentsController extends Controller
             'email' => $user->email,
             'photo_id'=>  $photoId,
             'body' => $request->body, 
-            'is_active' => $isAdmin ? 1 : 0, // Set to active if user is admin
+            'is_active' => $isAdmin ? 1 : 0, 
         ]; 
         Comment::create($data);
 
@@ -105,13 +97,8 @@ class PostCommentsController extends Controller
         
     public function destroy(Comment $comment)
     {
-       /*  if($comment->photo)
-        {
-        $path = parse_url($comment->photo->file);
-      
-        unlink(public_path($path['path']));
-        } */
         
+      
         $comment->delete();
         Session::flash('deleting_message','Your Comment had deleted');
          

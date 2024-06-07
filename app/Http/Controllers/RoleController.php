@@ -22,7 +22,7 @@ class RoleController extends Controller
 
     public function store()
     {
-      //مشان ما يحطا فاضية
+ 
       request()->validate
       ([
         'name'=>'required'
@@ -31,7 +31,7 @@ class RoleController extends Controller
       Role::create
       ([
       'name'=>Str::ucfirst(request('name')),
-     // 'slug'=>Str::of(Str::lower(request('name')))->slug('_')
+     
       ]);
 
      return back();
@@ -67,7 +67,7 @@ class RoleController extends Controller
 
      
       $role->name = Str::ucfirst(request('name'));
-     // $role->slug = Str::of(Str::lower(request('name')))->slug('_');
+    
 
       if(!$role->isClean('name'))
       {
@@ -82,8 +82,6 @@ class RoleController extends Controller
       }
 
      
-     
-    //Session::flash('updating_message',$role->name);
      return redirect()->route('role.index');
 
 
