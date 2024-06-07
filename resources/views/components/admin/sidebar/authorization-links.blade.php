@@ -9,7 +9,7 @@
         
 
         <a class="collapse-item" href="{{route('role.index')}}">Roles</a>
-        <a class="collapse-item" href="{{route('perm.index')}}">Permissions</a>
+      {{--   <a class="collapse-item" href="{{route('perm.index')}}">Permissions</a> --}}
       </div>
     </div>
   </li>

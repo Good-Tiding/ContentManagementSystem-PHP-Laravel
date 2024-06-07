@@ -7,34 +7,36 @@
     
     </span>
 
-
-
-    
     {{-- ما زبطت ما عم تطلع البليس هولدر لما ما يكون في صورة --}}
-
-    <img width= '150' height='150' class="img-profile rounded-circle" src="{{auth()->user() ? auth()->user()->photo  : 'https://placehold.co/600x400' }}">
+  {{--   @if($userphoto && $userphoto->isNotEmpty())
+     <img width= '150' height='150' class="img-profile rounded-circle" src="{{ $userphoto->file }}">
+    @else
+     <img width='150' height='150' class="img-profile rounded-circle" src="https://placehold.co/600x400"> 
+    @endif --}}
       {{-- <img class="img-profile rounded-circle" src="{{auth()->user()->photo}}"> --}}
+
+      <img width= '150' height='150' class="img-profile rounded-circle" src="{{auth()->user()->userphoto ? auth()->user()->userphoto->file  : 'https://placehold.co/600x400' }}">
     </a>
     <!-- Dropdown - User Information -->
     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
 
       @if(auth()->user()->roles()->where('name', 'Admin')->exists())
-       <a class="dropdown-item" href="{{ route( 'profile.adminuser',auth()->user() ) }}">
+       <a class="dropdown-item" href="{{ route( 'profile.adminuser',auth()->user()->slug ) }}">
       @elseif(auth()->user())
-      <a class="dropdown-item" href="{{ route( 'profile.normaluser',auth()->user() ) }}">
+      <a class="dropdown-item" href="{{ route( 'profile.normaluser',auth()->user()->slug ) }}">
       @endif
       
         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
         Profile
       </a>
-      <a class="dropdown-item" href="#">
+      {{-- <a class="dropdown-item" href="#">
         <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
         Settings
       </a>
       <a class="dropdown-item" href="#">
         <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
         Activity Log
-      </a>
+      </a> --}}
       <div class="dropdown-divider"></div>
       <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>

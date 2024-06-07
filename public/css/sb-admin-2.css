@@ -230,15 +230,20 @@ th {
 label {
   display: inline-block;
   margin-bottom: 0.5rem;
+  /* font: italic small-caps bold 20px Georgia; */
+
 }
+
 
 button {
   border-radius: 0;
+  
 }
 
 button:focus {
   outline: 1px dotted;
   outline: 5px auto -webkit-focus-ring-color;
+  
 }
 
 input,
@@ -841,8 +846,8 @@ pre code {
     max-width: 66.66667%;
   }
   .col-sm-9 {
-    flex: 0 0 75%;
-    max-width: 75%;
+    flex: 0 0 75%; 
+     max-width: 75%; 
   }
   .col-sm-10 {
     flex: 0 0 83.33333%;
@@ -2211,6 +2216,7 @@ textarea.form-control {
 
 .btn {
   display: inline-block;
+  margin-bottom: 10px;
   font-weight: 400;
   color: #858796;
   text-align: center;
@@ -10986,7 +10992,12 @@ form.user .btn-user {
 footer.sticky-footer {
   padding: 2rem 0;
   flex-shrink: 0;
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+
 }
+
+
 
 footer.sticky-footer .copyright {
   line-height: 1;
@@ -10999,5 +11010,45 @@ body.sidebar-toggled footer.sticky-footer {
 
 .delete-all-button
 {
-  padding-left: 1050px;
+  padding-left: 1000px;
 }
+
+.delete_image {
+  margin-top: 2px;
+  margin-left: -80px;
+}
+
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.inputfile + label {
+ 
+  color: white;
+  background-color: black;
+  display: inline-block;
+  cursor: pointer; /* "hand" cursor */
+
+  
+}
+
+.inputfile:focus + label,
+.inputfile + label {
+  background-color: #20c9a6;
+	outline:  auto 5px;
+  padding: 5px 10px;
+  border-radius: 10px;
+ 
+  
+}
+
+label:not([for="file"]) {
+  font: italic small-caps bold 20px Georgia;
+}
+

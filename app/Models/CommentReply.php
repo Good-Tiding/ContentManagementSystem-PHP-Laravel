@@ -17,4 +17,15 @@ class CommentReply extends Model
      return $this->belongsTo(Comment::class);
 
     }
+
+    public function photo()
+    {
+     return $this->belongsTo(Photo::class);
+
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    } 
 }

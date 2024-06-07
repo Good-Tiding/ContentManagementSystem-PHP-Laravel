@@ -31,7 +31,7 @@ class RoleController extends Controller
       Role::create
       ([
       'name'=>Str::ucfirst(request('name')),
-      'slug'=>Str::of(Str::lower(request('name')))->slug('_')
+     // 'slug'=>Str::of(Str::lower(request('name')))->slug('_')
       ]);
 
      return back();
@@ -51,7 +51,7 @@ class RoleController extends Controller
     {
       return view('admin.roles.edit',[
         'role_edit'=>$role,
-        'perm_all'=>Permission::all()
+       /*  'perm_all'=>Permission::all() */
     
     ]);
     }
@@ -67,11 +67,11 @@ class RoleController extends Controller
 
      
       $role->name = Str::ucfirst(request('name'));
-      $role->slug = Str::of(Str::lower(request('name')))->slug('_');
+     // $role->slug = Str::of(Str::lower(request('name')))->slug('_');
 
       if(!$role->isClean('name'))
       {
-        Session::flash('updating_message','Role '.$role->id.' has updated');
+        Session::flash('updating_message','Role '.$role->name.' has updated');
         $role->save();
 
       }
@@ -91,7 +91,7 @@ class RoleController extends Controller
     }
 
 
-    public function attach(Role $role)
+    /* public function attach(Role $role)
     {
 
       $role->permissions()->attach(request('permission'));
@@ -109,7 +109,7 @@ class RoleController extends Controller
       return back();
 
 
-    }
+    } */
     
   }
 

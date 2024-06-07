@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Support\Facades\Log;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -8,26 +9,32 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
+use Cviebrock\EloquentSluggable\Sluggable;
+
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, Sluggable;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-      'username',
-        'name',
-        'email',
-        'password',
-        'avatar',
-        'photo_id'
-       
-    ];
+   
 
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source'      => 'name',
+                'onUpdate'    => true,
+            ],
+           
+        ];
+    }
+
+    protected $guarded =[];
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -54,7 +61,7 @@ class User extends Authenticatable
         }
     }
  
-    public function getAvatarAttribute()
+    /* public function getAvatarAttribute()
     {
        
     
@@ -64,19 +71,25 @@ class User extends Authenticatable
     else
         return asset('/storage/'.$this->attributes['avatar']);
     
-    } 
+    }  */
     
-    public function posts()
-    {
-     return $this->hasMany(Post::class);
+    
 
-    }
-
-    public function permissions()
+    /* public function permissions()
     {
      return $this->belongsToMany(Permission::class);
 
+    } */
+
+/*     public function hasPermission($permission)
+{
+    foreach ($this->roles as $role) {
+        if ($role->permissions->contains('name', $permission)) {
+            return true;
+        }
     }
+    return false;
+} */
 
     public function roles()
     {
@@ -95,17 +108,77 @@ class User extends Authenticatable
        }
 
      }
+     return false;
 
     }
 
+  /*   public function assignRoleToUser(User $user)
+{
+    if (User::count() === 1) {
+        $adminRole = Role::where('name', 'admin')->first();
 
-    public function photo()
+        if (!$adminRole) {
+            $adminRole = Role::create([
+                'name' => 'admin',
+            ]);
+        }
+
+        $user->assignRole($adminRole);
+    }
+} */
+
+     public function assignRole($role)
+{
+   // Log::info('Assigning role to user: ' . $this->id);
+    if (is_string($role)) {
+        $role = Role::where('name', $role)->first();
+    }
+   // Log::info('Role assigned to user: ' . $this->id);
+    return $this->roles()->attach($role);
+}  
+
+
+
+     public function uploadphotos()
     {
-     return $this->belongsTo(Photo::class);
+     return $this->hasMany(UploadPhoto::class);
 
+    } 
+
+    public function userphoto()
+    {
+        
+        return $this->hasOne(Photo::class, 'id', 'photo_id');
+     
     }
 
+    
+     public function getRouteKeyName ()
+    {
+        return 'slug';
+    } 
   
+    public function posts()
+    {
+     return $this->hasMany(Post::class);
+
+    }
+    public function comments()
+    {
+     return $this->hasManyThrough(Comment::class, Post::class);
+    }
+
+
+    public function authcomments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+    
+    public function authreplies()
+    {
+        return $this->hasMany(CommentReply::class);
+    }
+ 
 
 
 

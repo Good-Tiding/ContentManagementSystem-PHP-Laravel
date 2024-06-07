@@ -1,65 +1,56 @@
 <x-admin-master>
-@section('content')
+  @section('content')
+    @include('ckeditor')  
+    <h1>Creating Posts</h1>
 
-  {{-- @include('tinyeditor')   --}}
+    <div class="row-sm-6">
+        <form method="POST" action="{{ route('post.store') }}" enctype="multipart/form-data">
+          @csrf
+            <div class="form-group">
+              <label for="title">Title</label>
+              <input type="text" name="title" class="form-control" placeholder="Enter a title">
+            </div>
 
+            <div class="form-group">
+              <label for="category_id">Choose a Category</label>
+                <select name="category_id" class="form-control">
+                  <option value="">Choose a category</option>
+                    @foreach($categories as $category)
+                      <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
 
-<h1>Creating Posts</h1>
+            
+              {{--  <label for="post_image">File</label>
+              <input type="file" name="post_image" class="form-control-file">
+            </div> --}}
 
-<div class="row-sm-6">
+            <div class='mb-4'>
+              <img id="preview-image" width='150' height='150'  src="{{ $post->post_image ? $post->post_image: 'https://placehold.co/600x400' }}">
+          </div>
 
-{!! Form::open(array('method' => 'post','files'=>'true', 'route' => 'post.store'))!!}
-    {{-- {!! Form:: model(['method' => 'post','route' => ['post.store']])!!} --}}
+            <div class="form-group">
+              <input type="file" name="post_image" id="file" class="inputfile" />
+              <label for="file" class="file-label">Choose a file</label>
+          </div>
 
-    <div class="form-group">
+            <div class="form-group">
+              <label for="body">Description</label>
+              <textarea id="editor" name="body" class="form-control"></textarea>
+            </div>
 
-    {!! Form::label ('title','Title')!!}
-    {{-- {!!{!! Form::label($for, $text, [$options]) !!}!!} --}}
-
-    {!! Form::text ('title','',['class'=>'form-control','placeholder'=>'Enter a title'])!!}
-    {{-- {!! {!! Form::text($name, $value, [$options]) !!}!!} --}}
-    
+            <div class="form-group">
+              <button type="submit" class="btn btn-info">Create Post</button>
+            </div>
+        </form>
     </div>
 
-    <div class="form-group">
-        
-    {!! Form::label ('category_id','Choose a Category')!!}
-    {!! Form::select (
-    'category_id',[''=>'Choose a category'] + $categories,null,['class'=>'form-control'])!!}
-
-   
-    </div>
-
-    {!! Form::label ('post_image','File')!!}
-    {!! Form::file ('post_image',['class'=>'form-control-file'])!!}
-    {!! Form::label ('')!!}
-    
-    <div class="form-group">
-    {!! Form::label ('body','Description')!!}
-    {!! Form::textarea('body',null,['class'=>'form-control'])!!}
+    <div class="row-sm-9">
+        @include('error')
     </div>
     
-    <div class="form-group">
-    {!! Form::submit ('create post',['class'=>'btn btn-info'])!!}
-    </div>
-    
-    {!! Form::close() !!}
-
-
-
-
-</div>
-
-
-
-<div class="row-sm-9">
-    @include('error')
- 
- </div>
-
-
+   @include('view_image')
   @endsection
- 
 </x-admin-master>
-
 

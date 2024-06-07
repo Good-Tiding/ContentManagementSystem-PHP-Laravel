@@ -11,118 +11,109 @@ use Illuminate\Support\Facades\Session;
 
 class PostCommentsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
 
-     $comments = Comment::all();
-     return view('comments.index', compact('comments'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+   
     public function store(Request $request)
     {
 
         $user=Auth::user();
-
+        $isAdmin=auth()->user()->UserHasRole('Admin');
+        $photoId = $user->userphoto ? $user->userphoto->id : 'https://placehold.co/600x400';
         $data=[
             'post_id' => $request->post_id,
-             'author' => $user->name,
+            'user_id' => $user->id,
+            'author' => $user->name,
             'email' => $user->email,
-            'photo_id'=>$user->photo->file,
+            'photo_id'=>  $photoId,
             'body' => $request->body, 
+            'is_active' => $isAdmin ? 1 : 0, // Set to active if user is admin
         ]; 
-        
-       // return $request->all();
-
-       /*  if($user->photo)
-        {
-            
-
-            $user->photo_id = $data['photo_id'];
-        
-        } 
- */
         Comment::create($data);
 
-       
-       session()->flash('comment_message','Your comment has been submitted and it is waiting for moderation');
-       return redirect()->back();
+        if($isAdmin)
+        {
+                 session()->flash('comment_message','Your comment has posted, you are the admin!!');
+        }
+       else
+       {
+        session()->flash('comment_message','Your comment has been submitted and it is waiting for moderation');
+
+       }
+       return redirect()->back();  
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(Post $post)
     {
-     $post=Post::findOrFail($id);
-     $comments =  $post->comments;
+     if (auth()->user()->UserHasRole('Admin')) 
+     {
+         $comments = Comment::paginate(1);
+     } 
+     else 
+     {
+         $comments = auth()->user()->authcomments()->paginate(1);
+     }
+
      return view('comments.show', compact('comments'));
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    
+    public function edit( Comment $comment)
     {
-        //
+        $postNumber = request()->query('post_number');
+         $page =  request()->query('page');
+       
+        return view('comments.edit', compact('comment','page','postNumber'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     public function update(Request $request, Comment $comment)
+    {
+        $postNumber = $request->input('post_number');
+        $page = $request->input('page');
+
+        if($comment->body != $request->body)
+        {
+            $comment->body = $request->body;
+            $comment->save();
+            
+           
+          
+            Session::flash('updating_message','Your comment '.$postNumber .' has been updated');
+        }
+        else
+        {
+            Session::flash('updating_message','Nothing has changed' );
+        }
+
+     // $comment->update($request->all());
+
+        return redirect()->route('comments.show',[$comment,'page' => $page]);
+    }
+ 
+
+    public function ApproveUnApprove (Request $request, Comment $comment)
     {
         $comment->update($request->all());
         return back();
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+        
+        
     public function destroy(Comment $comment)
     {
-        if($comment->photo)
+       /*  if($comment->photo)
         {
         $path = parse_url($comment->photo->file);
       
         unlink(public_path($path['path']));
-        }
+        } */
         
         $comment->delete();
-        Session::flash('deleting_message','Comment '.$comment->id.' had deleted');
+        Session::flash('deleting_message','Your Comment had deleted');
          
         return back();
     }

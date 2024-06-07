@@ -3,26 +3,29 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+
 Route::middleware('auth')->group(function()
 {
 
-    Route::put('profile/{user}/update', [App\Http\Controllers\UserController::class, 'update'])->name('profile.update');
-    Route::delete('/admin/user/delete/{user}', [App\Http\Controllers\UserController::class, 'delete'])->name('delete.user');
+    Route::put('profile/{user}/update', [UserController::class, 'update'])->name('profile.update');
+   
+    Route::delete('/deleteuserimage/{user}', [UserController::class, 'deleteuserimage'])->name('user.deleteuserimage');
 });
 
 Route::middleware(['role:Admin','auth'])->group(function()
 {
-
-    Route::get('admin/users/index', [App\Http\Controllers\UserController::class, 'index'])->name('index.users');
-    Route::put('user{user}/attach/role', [App\Http\Controllers\UserController::class, 'attach'])->name('user.role.attach');
-    Route::put('user{user}/detach/role', [App\Http\Controllers\UserController::class, 'detach'])->name('user.role.detach');
-    Route::get('admin/{user}/profile', [App\Http\Controllers\UserController::class, 'show_admin_profile'])->name('profile.adminuser');
-    
+    Route::get('user{user}/attach/role/profile', [UserController::class, 'show_profile_role'])->name('user.profile.role.attach');
+    Route::get('admin/users/index', [UserController::class, 'index'])->name('index.users');
+    Route::put('user{user}/attach/role', [UserController::class, 'attach'])->name('user.role.attach');
+    Route::put('user{user}/detach/role', [UserController::class, 'detach'])->name('user.role.detach');
+    Route::get('admin/{user:slug}/profile', [UserController::class, 'show_admin_profile'])->name('profile.adminuser');
+    Route::delete('/admin/user/delete/{user}', [UserController::class, 'delete'])->name('delete.user');
 }); 
 
 Route::middleware(['can:view,user','auth'])->group(function()
 {
-
-    Route::get('user/{user}/profile', [App\Http\Controllers\UserController::class, 'show_user_profile'])->name('profile.normaluser');
+//مرقت السلغ لاني بدي اعمل ابديت بنفس الصفحة وعم غير اسم اليوزر  مثلا بالبروفايل وممرقتله السلغ انها اسمه
+    Route::get('user/{user:slug}/profile', [UserController::class, 'show_user_profile'])->name('profile.normaluser');
   
 });

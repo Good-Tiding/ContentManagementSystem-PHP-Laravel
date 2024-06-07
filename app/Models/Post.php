@@ -17,6 +17,9 @@ class Post extends Model
 {
     use HasFactory;
     use Sluggable;
+ 
+
+
 
     /**
      * Return the sluggable configuration array for this model.
@@ -71,22 +74,40 @@ class Post extends Model
     
     } */
 
-    public function getPostImageAttribute()
-    {
-       /* if(substr($value,0,2) == 'ht')
+    /* public function getPostImageAttribute()
+    { */
+     /*  if(substr($value,0,2) == 'ht')
 	            return $value;
         else                       
        return asset('/storage/'.$value); */ 
         
        //dd(asset($value));
     
-    if(substr($this->attributes['post_image'],0,4) == 'http')
-     return $this->attributes['post_image'];
 
-    else
-        return asset('/storage/'.$this->attributes['post_image']);
+       
+       public function getPostImageAttribute($value)
+       {
+           if ($value) 
+           {
+               if (substr($value, 0, 4) == 'http') 
+               {
+                   return $value; // Return the image URL as it is
+               } 
+               else 
+               {
+                   return asset('/storage/' . $value); // Return the image URL with storage path
+               }
+           } 
+           else
+            {
+               return 'https://placehold.co/600x400'; // Return placeholder image URL for null values
+            }
+       }
+
     
-    } 
+
+
+    
     public function getRouteKeyName ()
     {
         return 'slug';
@@ -97,6 +118,8 @@ class Post extends Model
      return $this->belongsTo(Photo::class);
 
     } */
+
+    
 
     
   

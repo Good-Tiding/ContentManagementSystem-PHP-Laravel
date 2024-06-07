@@ -9,7 +9,10 @@
 }
 
 footer {
-    margin: 50px 0;
+    margin-top: 315px ;
+/*  margin-right:200px;
+ margin-left:200px;*/
+ width:1600px; 
 }
 /*!
  * Bootstrap v3.3.4 (http://getbootstrap.com)
@@ -4089,6 +4092,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   min-height: 50px;
   margin-bottom: 20px;
   border: 1px solid transparent;
+  width:1600px;
 }
 @media (min-width: 768px) {
   .navbar {
@@ -4407,7 +4411,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   }
   .navbar-right {
     float: right !important;
-    margin-right: -15px;
+    margin-right: -100px;
   }
   .navbar-right ~ .navbar-right {
     margin-right: 0;

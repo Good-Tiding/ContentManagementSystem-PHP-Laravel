@@ -9,22 +9,64 @@ class Photo extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['file'];
 
-    protected $uploaded = '/images_model/';
+  protected $guarded =[];
+    protected $profile = '/users_profile_pic/';
 
-   // protected $uploadeddropzone = '/dropzone_media/';
+    protected $placeholder = 'https://placehold.co/600x400';
+  
 
 
-    public function getFileAttribute($photo)
+   /*   public function getFileAttribute($photo)
 
     {
 
-        return $this->uploaded. $photo;
-    }
+        return $this->profile. $photo;
+    }  */
 
-
-   
+ 
+  public function getFileAttribute($photo)
+  {
+      if ($photo) 
+      {
+          $profilePic = public_path($this->profile . $photo);
+          if (file_exists($profilePic)) 
+          {
+              return url($this->profile . $photo);
+          }
+      }
+      
+      return url($this->placeholder);
+  }
   
+
+
+    
+
+/* public function getFileAttribute($photo)
+{
+    $profilePic = public_path($this->profile . $photo);
+
+    if (file_exists($profilePic)) {
+        return url($this->profile . $photo);
+    } else {
+        // Update the database to remove the photo
+        
+       // $this->update(['file' => null]);
+       //$this->update(['photo_id' => null]);
+      // $this->delete('file');
+      $this->update(['photo_id' => null]);
+        return url($this->placeholder);
+    }
+} */
+
+
+    
+     public function user()
+
+    {
+
+      return $this->belongsTo(User::class);
+    } 
 
 }

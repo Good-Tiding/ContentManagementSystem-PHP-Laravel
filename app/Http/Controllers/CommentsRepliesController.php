@@ -18,7 +18,7 @@ class CommentsRepliesController extends Controller
      */
     public function index()
     {
-        //
+       
     }
 
     /**
@@ -40,33 +40,56 @@ class CommentsRepliesController extends Controller
     public function store(Request $request)
     {
         $user=Auth::user();
+        $isAdmin=auth()->user()->UserHasRole('Admin');
+        $photoId = $user->userphoto ? $user->userphoto->id : 'https://placehold.co/600x400';
 
         $data=[
             'comment_id' => $request->comment_id,
-             'author' => $user->name,
+            //لما ضفت اليوزر اي دس للجدول نسيت ضيفههون وطلعلي مشكلة 
+            // Cannot add or update a child row: a foreign key constraint fails
+            'user_id' => $user->id,
+            'author' => $user->name,
             'email' => $user->email,
-            'photo_id'=> $user->photo->file,
+      //'photo_id'=> $user->userphoto->id,
+           'photo_id'=>  $photoId,
             'body' => $request->body, 
+            'is_active' => $isAdmin ? 1 : 0, // Set to active if user is admin
         ]; 
         CommentReply::create($data);
        // return $request->all();
+       if($isAdmin)
+       {
+         session()->flash('reply_message','Your reply has posted, you are the admin!!');
+       }
+      else
+      {
+        session()->flash('reply_message','Your reply has been submitted and it is waiting for moderation');
 
-       session()->flash('reply_message','Your reply has been submitted and it is waiting for moderation');
+      }
+      
        return redirect()->back();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+   
+    public function show(Comment $comment)
     {
-     $comment=Comment::findOrFail($id);
+  
+
+        if (auth()->user()->UserHasRole('Admin')) 
+        {
+            $replies = CommentReply::paginate(1);
+        } 
+        else 
+        {
+            $replies = auth()->user()->authreplies()->paginate(1);
+        }
+
+        return view('comments.replies.show', compact('replies'));
+
+          /*  $comment=Comment::findOrFail($id);
      $replies =  $comment->replies;
      return view('comments.replies.show', compact('replies')); 
-
+ */
     
     }
 
@@ -100,10 +123,19 @@ class CommentsRepliesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CommentReply $reply)
+
+     public function destroy(CommentReply $reply)
+
     {
+        /* if($reply->photo)
+        {
+        $path = parse_url($reply->photo->file);
+      
+        unlink(public_path($path['path']));
+        } */
+
         $reply->delete();
-        Session::flash('deleting_message','Reply '.$reply->id.' had deleted');
+        Session::flash('deleting_message','Your Reply had deleted');
          
         return back();
     }

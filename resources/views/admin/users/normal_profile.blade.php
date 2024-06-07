@@ -1,114 +1,98 @@
 <x-admin-master>
-
-
     @section('content')
-    
-    @if(Session::has('updating_message'))
-        <div class='alert alert-primary' >
-            {{Session::get('updating_message')}}
-        </div>
-    @endif
-    
-        
-    
-        <h1>User Profile Of {{$user->username}}</h1>
-    
+      @include('timeout-flasmessage')
+      @include('error')
+     {{--  @include('delete_user_profile')
+      @include('view_image') --}}
+
+        @if(Session::has('updating_message'))
+            <div class='alert alert-primary' >{{Session::get('updating_message')}}</div>
+        @elseif (session('deleting_user_image_message'))
+            <div class='alert alert-danger' >{{session('deleting_user_image_message')}}</div>
+        @endif
+      
+
+       {{--   @foreach ($user->roles as $user_role)
+          <h1> User Profile Of <strong>{{$user->username}}</strong> with role <strong>{{$user_role->name }}</strong> </h1>
+         @endforeach --}}
+
+                @if ($user->roles->isNotEmpty())
+                   <h1> User Profile Of <strong>{{$user->username}}</strong> with role(s) :
+                   {{ $user->roles->pluck('name')->implode(', ') }}
+                   </h1>
+                @else
+                  <h1>User Profile Of <strong>{{$user->username}}</strong></h1>
+                @endif
         <div class='row'>
             <div class="col-sm-6">
-            
-                
-                {!! Form::open(array('method' => 'put','files'=>'true','route' => array('profile.update',$user->id)))!!}   
-                
-                <div class='mb-4'> 
-                    <img width= '150' height='150' class="img-profile rounded-circle" src="{{$user->avatar}}">
-            
-                
-            
-            
-                <div class="form-group">
-                {!! Form::label ('avatar','old_photo_storage_link: ')!!}
-                {!! Form::file ('avatar',['class'=>'form-control-file'])!!}
-              
-            
-                </div>
+                <form method="post" action="{{ route('profile.update', $user->slug) }}"  enctype="multipart/form-data">
+                    <input type="hidden" name="_method" value="put">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-                <div class='mb-4'> 
-                    <img width= '150' height='150' class="img-profile rounded-circle" src="{{$user->photo ? $user->photo->file  : 'no photo' }}">
-
-                <div class="form-group">
-                    {!! Form::label ('photo_id','new_photo_model: ')!!}
-                    {!! Form::file ('photo_id',['class'=>'form-control-file'])!!}
-                  
-                
+                    <div class='mb-4'>
+                        <img  id="preview-image" width='150' height='100' class="img-profile rounded-circle" src="{{ $user->userphoto ? $user->userphoto->file : 'https://placehold.co/600x400' }}"> 
                     </div>
-            
-                <div class="form-group">
-            
-                    {!! Form::label ('username','UserName')!!}
-                    {!! Form::text ('username',"$user->username",['class'=>"form-control"
-                    ])!!}
-                    {{-- {{$errors->has('username') ? 'is-invalid' : '' }} --}}
-             
-                @if ($errors->has('username'))
-                <span class="text-danger">{{ $errors->first('username') }}</span>
-                    @endif 
-               
-            
-                </div>
-    
-                <div class="form-group">
-                <label for="name">Name</label>
-     
-                <input id="name" type="text" name="name" value="{{$user->name}}" class="form-control "@error('name') is-invalid @enderror">
-                 
-                @error('name')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-                </div>
-    
-    
-                <div class="form-group">
-            
-                    {!! Form::label ('email','Email')!!}
-                    {!! Form::text ('email',"$user->email",['class'=>"form-control {{ $errors->first('email','is-invalid') }}"])!!}
-                 
-                 @error('email')
-                      <div class="invalid-feedback">{{$message}}</div>     
-                    @enderror 
-                </div>
-            
-                <div class="form-group">
-            
-                        {!! Form::label ('password','Password')!!}
-                       
-                        {!! Form::password ('password',['class'=>'form-control'])!!}
 
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <input type="file" name="photo_id" id="file" class="inputfile" />
+                            <label for="file" class="file-label">Choose a file</label>
+                        </div>
+                        <div class="col-sm-9">
+                            @if ($user->userphoto && $user->userphoto->file !== 'https://placehold.co/600x400')
+                                <button type="button" id="deleteButton" class="btn btn-danger delete_user_image">Delete Image</button>
+                            @endif
+                        </div>
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="username">UserName</label>
+                        <input type="text" id="username" name="username" value="{{ $user->username }}" class="form-control {{ $errors->has('username') ? 'is-invalid' : '' }}">
+                        @if ($errors->has('username'))
+                            <span class="text-danger">{{ $errors->first('username') }}</span>
+                        @endif
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input id="name" type="text" name="name" value="{{ $user->name }}" class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}">
+                        @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" id="email" name="email" value="{{ $user->email }}" class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}">
+                        @error('email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" class="form-control">
                         @if ($errors->has('password'))
-                         <span class="text-danger">{{ $errors->first('password') }}</span>
-                        @endif 
-                     
-                   
-                </div>
-            
-                <div class="form-group">
-            
-                    {!! Form::label ('confirm_password','Confirm Your Password')!!}
-                    {!! Form::password ('password',['class'=>'form-control'])!!}
-
-                  
-                  
-               </div>
-               <div class="form-group">
-                   {!! Form::submit ('update profile',['class'=>'btn btn-info col-sm-6 '])!!}
-               </div>  
-                    
-                    {!! Form::close() !!}
-                           
-                   {{-- @include('error') --}}
+                            <span class="text-danger">{{ $errors->first('password') }}</span>
+                        @endif
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="confirm_password">Confirm Your Password</label>
+                        <input type="password" id="confirm_password" name="password_confirmation" class="form-control">
+                    </div>
+                
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-info col-sm-6">Update Profile</button>
+                    </div>
+                </form>   
             </div>
-        </div>
-
-        </div>
+        </div>   
     @endsection
+
+    @section('table scripts')
+        @include('delete_user_profile')
+        @include('view_image')
+    @endsection 
 </x-admin-master>
     

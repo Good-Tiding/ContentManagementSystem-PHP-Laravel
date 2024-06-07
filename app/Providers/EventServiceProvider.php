@@ -7,6 +7,10 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 
+use Illuminate\Database\Events\MigrationEnded;
+use App\Listeners\DeletePublicFolders;
+
+
 class EventServiceProvider extends ServiceProvider
 {
     /**
@@ -17,6 +21,10 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+
+        MigrationEnded::class => [
+            DeletePublicFolders::class,
         ],
     ];
 

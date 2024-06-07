@@ -21,6 +21,7 @@
         "sass-loader": "^11.0.1"
     },
     "dependencies": {
+        "ckeditor4": "^4.24.0",
         "tinymce": "^6.8.2"
     }
 }

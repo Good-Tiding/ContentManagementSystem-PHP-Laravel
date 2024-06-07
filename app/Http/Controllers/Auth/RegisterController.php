@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class RegisterController extends Controller
 {
@@ -24,29 +26,16 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
+   
     protected $redirectTo = RouteServiceProvider::HOME;
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+   
     public function __construct()
     {
         $this->middleware('guest');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
+    
     protected function validator(array $data)
     {
         return Validator::make($data, [
@@ -57,20 +46,50 @@ class RegisterController extends Controller
         ]);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
-     */
+  
+
+/*   public function assignRoleToUser(User $user)
+{
+    if (User::count() === 1) {
+        $adminRole = Role::where('name', 'admin')->first();
+
+        if (!$adminRole) {
+            $adminRole = Role::create([
+                'name' => 'admin',
+            ]);
+        }
+
+        $user->assignRole($adminRole);
+    }
+}  */
     protected function create(array $data)
     {
-        return User::create([
+      /*   Log::info('Creating new user: ' . $data['username']);  */
+        $user = User::create([
             'username' => $data['username'],
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => $data['password'],
-            //'password' => Hash::make($data['password'])
         ]);
+    
+         if ($user) {
+           // Log::info('Assigning role to user: ' . $user->id);
+       // $this->assignRoleToUser($user);
+       if (User::count() === 1) {
+        $adminRole = Role::where('name', 'admin')->first();
+
+        if (!$adminRole) {
+            $adminRole = Role::create([
+                'name' => 'admin',
+            ]);
+        }
+
+        $user->assignRole($adminRole);
     }
+        }
+        //Log::info('User created: ' . $user->id);
+
+
+    return $user; 
+}
 }

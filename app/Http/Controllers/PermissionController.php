@@ -1,13 +1,15 @@
-<?php
-
+  <?php
+/*
 namespace App\Http\Controllers;
 
 use App\Models\Permission;
+
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Str;
+use Illuminate\Support\Str; 
 
-class PermissionController extends Controller
+ class PermissionController extends Controller
 {
     public function index()
     {
@@ -28,10 +30,10 @@ class PermissionController extends Controller
       Permission::create
       ([
       'name'=>Str::ucfirst(request('name')),
-      'slug'=>Str::of(Str::lower(request('name')))->slug('_')
+      //'slug'=>Str::of(Str::lower(request('name')))->slug('_')
       ]);
 
-     return back();
+      return redirect()->route('perm.index');
      //dd(request('name'));
      
     }
@@ -41,14 +43,15 @@ class PermissionController extends Controller
     $perm->delete();
     Session::flash('deleting_message','Permission '.$perm->name.' had deleted');
      
-      return back();
+    return redirect()->route('perm.index');
     }
 
     public function edit(Permission $perm)
     {
       return view('admin.permissions.edit',[
         'perm_edit'=>$perm,
-        'perm_all'=>Permission::all()
+       // 'perm_all'=>Permission::all(),
+        'user_all'=>User::all()
     
     ]);
     }
@@ -64,11 +67,11 @@ class PermissionController extends Controller
 
      
       $perm->name = Str::ucfirst(request('name'));
-      $perm->slug = Str::of(Str::lower(request('name')))->slug('_');
+     // $perm->slug = Str::of(Str::lower(request('name')))->slug('_');
 
       if(!$perm->isClean('name'))
       {
-        Session::flash('updating_message','Permission '.$perm->id.' has updated');
+        Session::flash('updating_message','Permission '.$perm->name.' has updated');
         $perm->save();
 
       }
@@ -86,4 +89,18 @@ class PermissionController extends Controller
 
 
     }
-}
+
+    public function attach(Permission $perm)
+    {
+
+      $perm->users()->attach(request('user'));
+      return back();
+    }
+
+    public function detach(Permission $perm)
+    {
+
+      $perm->users()->detach(request('user'));
+      return back();
+    }
+} */
