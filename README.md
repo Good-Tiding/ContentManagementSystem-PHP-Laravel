@@ -9,7 +9,7 @@
 
 ## Project Overview
 
-Our Content Management System (CMS) offers a dynamic platform where admins and users engage seamlessly. Upon registration, users gain access to a suite of features that prioritize privacy and personalization:
+My Content Management System (CMS) offers a dynamic platform where admins and users engage seamlessly. Upon registration, users gain access to a suite of features that prioritize privacy and personalization:
 
 - Photo Uploads: Users can upload photos with the assurance of privacy; not even the admin can view these images.
 - Interactive Posts: Users have the freedom to comment, reply, and publish their own content.
