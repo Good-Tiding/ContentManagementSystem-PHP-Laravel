@@ -26,7 +26,7 @@ On the administrative side, the CMS empowers admins with comprehensive oversight
 
 The project roadmap includes the integration of additional features to enhance user experience and system functionality.
 
-For a detailed walkthrough of the CMS, please refer to the accompanying video provided with the project files under the name: cms code video.mp4.
+For a detailed walkthrough of the CMS, please refer to this video link:https://drive.google.com/file/d/16gvu0dl0fyEQ3W9e9B5ntmirfxSagKIW/view?usp=sharing.
 
 
 
